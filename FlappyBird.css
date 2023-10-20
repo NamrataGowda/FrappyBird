@@ -3,6 +3,6 @@ body{
     text-align: center;
 }
 #board{
-    background: aquamarine;
- /*background-image: url("./fb-background.png");*/
+
+ background-image: url("./fb-background.png");
 }
