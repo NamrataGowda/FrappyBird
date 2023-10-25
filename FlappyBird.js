@@ -5,8 +5,8 @@ let boardWidth = 360;
 let boardHeight = 640;
 
 //bird
-let birdWidth = 70;  
-let birdHeight = 52;
+let birdWidth = 60;  
+let birdHeight = 42;
 let birdX = boardWidth/8;
 let birdY = boardHeight/2;
 let birdImg;
@@ -29,17 +29,45 @@ let bird = {
 let pipeArray = [];
 let pipeX = boardWidth;
 let pipeY = 0;
-let pipeWidth = 100;
-let pipeHeight = 480;
+let pipeWidth = 80;
+let pipeHeight = 400;
 
 let topPipeImage;
 let bottomPipeImage;
 
+//startButton
+let startButton;
+
+let sb = {
+    img: startButton,
+    x:100,
+    y:263,
+    w:200,
+    h:40,
+}
+
+//Adding this line here to stop the game from starting right away
+let gameStart = false;
+let gameover;
+let lastScore;
+let bestScore;
+
+
 window.onload = function(){
+    lastScore = document.querySelector("#score");
+    bestScore = document.querySelector("#best");
+    gameover = document.querySelector("#game-over");
     board = document.getElementById("board");
     board.width = boardWidth;
     board.height = boardHeight;
     context = board.getContext("2d");
+
+    //displaying start button
+    startButton = new Image();
+    startButton.src= "./start-button-sprite.png";
+    startButton.onload = function(){
+        context.drawImage(startButton,sb.x,sb.y,sb.w,sb.h);
+    }
 
     //loading image of bird
     birdImg = new Image();
@@ -55,18 +83,61 @@ window.onload = function(){
     bottomPipeImage = new Image();
     bottomPipeImage.src = "./fb-pipe-bottom.png";
 
+    //function to evoke the start button
+    startButton.addEventListener('click', function(){
+        console.log("i am in function");
+        if(!gameStart){
+            startGame();
+            gameStart == true;
+        }
+    });
+}
+
+//This function will show gameover
+function game(){
+    gameover.innerHTML = "GAME OVER !";
+}
+function showScore(){
+    lastScore.innerHTML = "Score:"+score;
+    //bestScore.innerHTML = ;
+}
+
+function startGame(){
+    bird.x = birdX;
+    pipeArray = [];
+    score = 0;
+    gameOver = false;
+
+       //Game logic starts here
     requestAnimationFrame(update);
     setInterval(pipeAppear,2200);
     document.addEventListener("keydown", birdMove);
 }
 
+
+    //Clears pipes once the bird passes them
+    while(pipeArray.length > 0 && pipeArray[0].x < -pipeWidth){
+        pipeArray.shift();
+    }
+
+    //Code for score board
+    function drawScore(){
+
+    context.fillStyle = "Black";
+    context.font = "45px Teko";
+    context.fillText(score, 5, 50);
+
+    }
+
+    if(gameOver){
+        game();
+        showScore();
+    }
+
 //This function is for updating the background screens
 function update(){
 
     requestAnimationFrame(update);
-    if(gameOver){
-        return;
-    }
     context.clearRect(0, 0, board.width, board.height);
 
     //This will make the bird move
@@ -101,15 +172,11 @@ function update(){
         pipeArray.shift();
     }
 
-    //Code for score board
-    context.fillStyle = "Black";
-    context.font = "45px sans-serif";
-    context.fillText(score, 5, 45);
-
     if(gameOver){
-        context.fillText("GAME OVER", 50, 320);
+        game();
+        showScore();
     }
-
+drawScore();
 }
 
 //This function is to make the pipes appear
@@ -149,7 +216,7 @@ function pipeAppear(){
 function birdMove(e){
 
     if(e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX"){
-        velocityY = -6;
+        velocityY = -8;
     }
 
     //reset

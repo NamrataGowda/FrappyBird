@@ -1,8 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
 body{
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'VT323', monospace;
     text-align: center;
 }
 #board{
-
+ border: 7px solid black;
  background-image: url("./fb-background.png");
+}
+#game-over{
+    position:absolute;
+    height:40px;
+    width:250px;
+    background-color:#E16018;
+    color:#fff;
+    font-size: 30px;
+    border: 7px solid #503002;
+}
+#score-overlay{
+    top: 20px;
+    right:500px;
+    height: 100px;
+    width:250px;
+    background-color:#E16018;
+    color:#fff;
+    font-size: 30px;
+    border: 7px solid #503002;
 }
