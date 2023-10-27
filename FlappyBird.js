@@ -11,13 +11,7 @@ let birdX = boardWidth/8;
 let birdY = boardHeight/2;
 let birdImg;
 
-//movement of pipes & more
-let velocityX = -2;
-let velocityY = 0;
-let gravity = 0.4;
-let gameOver = false;
-let score = 0;
-
+//object of bird 
 let bird = {
     x : birdX,
     y : birdY,
@@ -35,24 +29,35 @@ let pipeHeight = 400;
 let topPipeImage;
 let bottomPipeImage;
 
-//startButton
-let startButton;
+//movement of pipes & more
+let velocityX = -2;
+let velocityY = 0;
+let gravity = 0.4;
+let gameOver = false;
+let score = 0;
 
-let sb = {
-    img: startButton,
-    x:100,
-    y:263,
-    w:200,
-    h:40,
-}
 
 //Adding this line here to stop the game from starting right away
 
 let gameStart = false;  // This is a boolean flag
-//let gameover;
-//let lastScore;
 
+//GAMEOVER message
+let go;
+let g = {
+    x: 45,
+    y: 150,
+    w: 300,
+    h: 200,
+    }
 
+//START button
+let s;
+let st = {
+    x: 45,
+    y: 150,
+    w: 200,
+    h: 50,
+}
 
 window.onload = function(){
 
@@ -61,16 +66,7 @@ window.onload = function(){
     board.height = boardHeight;
     context = board.getContext("2d");
 
-    //lastScore = document.querySelector("#score");
-    //gameover = document.querySelector("#game-over");
-
-    //displaying start button
-    startButton = new Image();
-    startButton.src= "./start-button-sprite.png";
-    startButton.onload = function(){
-        context.drawImage(startButton,sb.x,sb.y,sb.w,sb.h);
-    }
-
+    
     //loading image of bird
     birdImg = new Image();
     birdImg.src = "./flappybird.png";
@@ -85,8 +81,20 @@ window.onload = function(){
     bottomPipeImage = new Image();
     bottomPipeImage.src = "./fb-pipe-bottom.png";
 
+    //Loading the message GAME OVER !
+    go = new Image();
+    go.src = './game-over.png';
+
+    //Loading of Start button
+    s = document.createElement('img');
+    s.src = './start-button-sprite.png';
+    s.setAttribute('id','start');
+    s.onload = function(){
+        context.drawImage(s,st.x,st.y,st.w,st.h);
+    }
+ 
     //function to evoke the start button
-    document.getElementById("start").addEventListener('click', function(){
+    s.addEventListener('click', function(){
         if(!gameStart){
             startGame();
             gameStart == true;
@@ -94,20 +102,9 @@ window.onload = function(){
     });
 }
 
-//This function will show gameover
-function game(){
-    //gameover.innerHTML = "GAME OVER !";
-    let gameover = document.createElement("div");
-    gameover.setAttribute('id','game-over');
-    console.log(gameover);
-    gameover.innerText = "GAME OVER !";
-    document.getElementById("board").appendChild(gameover);
-}
-function showScore(){
-    //lastScore.innerHTML = "Score:"+score;
-}
 
 function startGame(){
+
     bird.x = birdX;
     pipeArray = [];
     score = 0;
@@ -125,19 +122,6 @@ function startGame(){
         pipeArray.shift();
     }
 
-    //Code for score board
-    function drawScore(){
-
-    context.fillStyle = "Black";
-    context.font = "45px Teko";
-    context.fillText(score, 5, 50);
-
-    }
-
-    if(gameOver){
-        game();
-        showScore();
-    }
 
 //This function is for updating the background screens
 function update(){
@@ -178,8 +162,8 @@ function update(){
     }
 
     if(gameOver){
-        game();
-        showScore();
+        context.drawImage(go,g.x,g.y,g.w,g.h);
+        return;
     }
 drawScore();
 }
@@ -243,4 +227,11 @@ function checkCollision(a,b){
     
 }
 
+    //Code for score board
+    function drawScore(){
 
+        context.fillStyle = "Black";
+        context.font = "45px Teko";
+        context.fillText(score, 5, 50);
+    
+        }

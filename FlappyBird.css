@@ -27,3 +27,7 @@ body{
     font-size: 30px;
     border: 7px solid #503002;
 }
+#start{
+    height:100px;
+    width: 200px;
+}
