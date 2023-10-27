@@ -59,6 +59,15 @@ let st = {
     h: 50,
 }
 
+//SCORE board
+let sc;
+let sco = {
+    x: 45,
+    y: 150,
+    w: 300,
+    h: 200,
+}
+
 window.onload = function(){
 
     board = document.getElementById("board");
@@ -88,13 +97,19 @@ window.onload = function(){
     //Loading of Start button
     s = document.createElement('img');
     s.src = './start-button-sprite.png';
-    s.setAttribute('id','start');
+    //s.setAttribute('id','start');
     s.onload = function(){
         context.drawImage(s,st.x,st.y,st.w,st.h);
     }
- 
+
+    //loading of score board
+    sc = document.createElement('div');
+    sc.setAttribute('id','score-overlay');
+    sc.onload = function(){
+        context.drawImage(sc, sco.x, sco.y, sco.h, sco.w);
+    }
     //function to evoke the start button
-    s.addEventListener('click', function(){
+    document.getElementById('start').addEventListener('click', function(){
         if(!gameStart){
             startGame();
             gameStart == true;
@@ -163,6 +178,7 @@ function update(){
 
     if(gameOver){
         context.drawImage(go,g.x,g.y,g.w,g.h);
+        showScore();
         return;
     }
 drawScore();
@@ -235,3 +251,10 @@ function checkCollision(a,b){
         context.fillText(score, 5, 50);
     
         }
+    // code for showing Score once the game is over 
+    function showScore(){
+        /*sc.onload = function(){
+            context.drawImage(sc, sco.x, sco.y, sco.h, sco.w);
+        }*/
+        sc.innerHTML = "SCORE:" +score;
+    }
