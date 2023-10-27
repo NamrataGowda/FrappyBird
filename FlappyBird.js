@@ -47,20 +47,22 @@ let sb = {
 }
 
 //Adding this line here to stop the game from starting right away
-let gameStart = false;
-let gameover;
-let lastScore;
-let bestScore;
+
+let gameStart = false;  // This is a boolean flag
+//let gameover;
+//let lastScore;
+
 
 
 window.onload = function(){
-    lastScore = document.querySelector("#score");
-    bestScore = document.querySelector("#best");
-    gameover = document.querySelector("#game-over");
+
     board = document.getElementById("board");
     board.width = boardWidth;
     board.height = boardHeight;
     context = board.getContext("2d");
+
+    //lastScore = document.querySelector("#score");
+    //gameover = document.querySelector("#game-over");
 
     //displaying start button
     startButton = new Image();
@@ -84,8 +86,7 @@ window.onload = function(){
     bottomPipeImage.src = "./fb-pipe-bottom.png";
 
     //function to evoke the start button
-    startButton.addEventListener('click', function(){
-        console.log("i am in function");
+    document.getElementById("start").addEventListener('click', function(){
         if(!gameStart){
             startGame();
             gameStart == true;
@@ -95,11 +96,15 @@ window.onload = function(){
 
 //This function will show gameover
 function game(){
-    gameover.innerHTML = "GAME OVER !";
+    //gameover.innerHTML = "GAME OVER !";
+    let gameover = document.createElement("div");
+    gameover.setAttribute('id','game-over');
+    console.log(gameover);
+    gameover.innerText = "GAME OVER !";
+    document.getElementById("board").appendChild(gameover);
 }
 function showScore(){
-    lastScore.innerHTML = "Score:"+score;
-    //bestScore.innerHTML = ;
+    //lastScore.innerHTML = "Score:"+score;
 }
 
 function startGame(){
